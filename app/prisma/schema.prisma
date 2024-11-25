@@ -14,8 +14,9 @@ datasource db {
 }
 
 model User {
-  username String @id @unique @db.VarChar(20)
-  password String @db.VarChar(255)
+  username      String  @id @unique @db.VarChar(20)
+  password      String  @db.VarChar(255)
+  refresh_token String? @db.Text
 }
 
 model Task {
