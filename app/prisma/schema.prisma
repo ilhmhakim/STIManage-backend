@@ -23,22 +23,23 @@ model Task {
   id              Int        @id @default(autoincrement()) @db.Int
   task_name       String     @db.VarChar(255)
   gitlab_link     String     @db.Text
-  scope           Int        @db.UnsignedTinyInt
-  module_type     Int        @db.UnsignedTinyInt
-  problem_type    Int        @db.UnsignedTinyInt
-  category        Int        @db.UnsignedTinyInt
+  scope           String     @db.VarChar(64)
+  module_type     String     @db.VarChar(64)
+  problem_type    String     @db.VarChar(255)
+  category        String     @db.VarChar(64)
   programmer_name String     @db.VarChar(255)
   qa_name         String     @db.VarChar(255)
   deadline_date   DateTime   @db.Date
-  submission_date DateTime   @db.Date
-  StatusLog       StatusLog?
+  open_date       DateTime   @db.Date
+  created_by      String     @db.VarChar(20)
+  status_log      StatusLog?
 }
 
 model StatusLog {
   task_id         Int      @id @db.Int
-  task            Task     @relation(fields: [task_id], references: [id])
-  task_status     Int      @default(1) @db.UnsignedTinyInt
-  deadline_status Int      @default(1) @db.UnsignedTinyInt
-  created_at      DateTime @default(now()) @db.Timestamp(3)
-  updated_at      DateTime @default(now()) @db.Timestamp(3)
+  task            Task     @relation(fields: [task_id], references: [id], onDelete: Cascade)
+  task_status     String   @default("To Do") @db.VarChar(64)
+  deadline_status String   @default("Tepat Waktu") @db.VarChar(64)
+  updated_at      DateTime @updatedAt @db.Timestamp(3)
+  updated_by      String   @db.VarChar(20)
 }
