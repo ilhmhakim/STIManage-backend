@@ -1,4 +1,4 @@
-import {CreateTaskRequest} from "../model/task-model";
+import {CreateTaskRequest, UpdateTaskRequest} from "../model/task-model";
 import {Validation} from "../validation/validation";
 import {TaskValidation} from "../validation/task-validation";
 import {prismaClient} from "../application/database";
@@ -34,5 +34,9 @@ export class TaskService {
                 }
             }
         });
+    }
+
+    static async updateTask(request: UpdateTaskRequest) {
+        const updateTaskRequest = Validation.validate(TaskValidation.UPDATETASK, request)
     }
 }

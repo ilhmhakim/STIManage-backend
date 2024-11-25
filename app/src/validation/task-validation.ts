@@ -15,6 +15,7 @@ export class TaskValidation {
     });
 
     static readonly UPDATETASK: ZodType = z.object({
+        task_id: z.number().positive({message: "ID Invalid"}),
         task_name: z.string().trim().min(1, { message: "Nama tugas tidak boleh kosong" }).max(255, { message: "Nama tugas maksimal 255 karakter" }).optional(),
         gitlab_link: z.string().trim().min(1, { message: "Link GitLab tidak boleh kosong" }).optional(),
         scope: z.enum(["BE", "FE", "BE & FE"], { message: "Scope hanya dapat berupa 'BE', 'FE', atau 'BE & FE'" }).optional(),
@@ -24,7 +25,7 @@ export class TaskValidation {
         programmer_name: z.string().trim().min(1, { message: "Nama programmer tidak boleh kosong" }).optional(),
         qa_name: z.string().trim().min(1, { message: "Nama QA tidak boleh kosong" }).optional(),
         deadline_date: z.string().trim().min(1, { message: "Tanggal deadline tidak boleh kosong" }).optional(),
-        open_date: z.string().trim().optional(), // Tidak ada pesan error karena open_date opsional
+        task_status
     });
 
     static readonly GETTASK: ZodType = z.object({
