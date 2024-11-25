@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  username String @id @unique @db.VarChar(20)
+  password String @db.VarChar(255)
+}
+
+model Task {
+  id              Int        @id @default(autoincrement()) @db.Int
+  task_name       String     @db.VarChar(255)
+  gitlab_link     String     @db.Text
+  scope           Int        @db.UnsignedTinyInt
+  module_type     Int        @db.UnsignedTinyInt
+  problem_type    Int        @db.UnsignedTinyInt
+  category        Int        @db.UnsignedTinyInt
+  programmer_name String     @db.VarChar(255)
+  qa_name         String     @db.VarChar(255)
+  deadline_date   DateTime   @db.Date
+  submission_date DateTime   @db.Date
+  StatusLog       StatusLog?
+}
+
+model StatusLog {
+  task_id         Int      @id @db.Int
+  task            Task     @relation(fields: [task_id], references: [id])
+  task_status     Int      @default(1) @db.UnsignedTinyInt
+  deadline_status Int      @default(1) @db.UnsignedTinyInt
+  created_at      DateTime @default(now()) @db.Timestamp(3)
+  updated_at      DateTime @default(now()) @db.Timestamp(3)
+}
