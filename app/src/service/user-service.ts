@@ -1,4 +1,10 @@
-import {toLoginResponse, UserLoginRequest, UserRegisterRequest} from "../model/user-model";
+import {
+    RefreshAccessTokenRequest,
+    toLoginResponse,
+    toUserRefreshAccessToken,
+    UserLoginRequest,
+    UserRegisterRequest
+} from "../model/user-model";
 import {Validation} from "../validation/validation";
 import {UserValidation} from "../validation/user-validation";
 import {prismaClient} from "../application/database";
@@ -6,6 +12,8 @@ import {ResponseError} from "../error/response-error";
 import bcrypt from "bcrypt";
 import {UserPayload} from "../type/user";
 import {issueAccessToken, issueRefreshToken} from "../middleware/auth-middleware";
+import jwt from "jsonwebtoken";
+import {jwtRefresh} from "../config/jwt";
 
 
 export class UserService {
@@ -54,5 +62,36 @@ export class UserService {
         });
 
         return toLoginResponse(accessToken, userToken);
+    }
+
+    static async refreshAccessToken(request: RefreshAccessTokenRequest) {
+        const requestRefreshToken = Validation.validate(UserValidation.REFRESH, request);
+
+        if (!requestRefreshToken) {
+            throw new ResponseError(401, "Refresh token tidak tersedia");
+        }
+
+        const decoded = jwt.verify(requestRefreshToken.refresh_token, jwtRefresh.secret!) as { username: string };
+        const user = await prismaClient.user.findUnique({ where: { username: decoded.username } });
+
+        if (!user || user.refresh_token !== requestRefreshToken.refresh_token) {
+            throw new ResponseError(403, "Refresh token tidak valid");
+        }
+
+        const userPayload: UserPayload = { username: decoded.username };
+        const accessToken = issueAccessToken(userPayload);
+
+        return toUserRefreshAccessToken(accessToken);
+    }
+
+    static async logout(request: string) {
+        await prismaClient.user.update({
+            where: {
+                username: request
+            },
+            data: {
+                refresh_token: null
+            }
+        })
     }
 }

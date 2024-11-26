@@ -32,4 +32,8 @@ export class UserValidation {
             .regex(/\d/, { message: "PUsername atau password invalid" })
             .regex(/[@$!%*?&#^()_+[\]{};':"|,.<>~`]/, { message: "Username atau password invalid" }),
     });
+
+    static readonly REFRESH: ZodType = z.object({
+        refresh_token: z.string().min(1)
+    });
 }
