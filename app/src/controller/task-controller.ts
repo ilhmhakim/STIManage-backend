@@ -90,13 +90,9 @@ export class TaskController {
 
     static async getDashboard(req:UserRequest, res:Response, next:NextFunction) {
         try {
-            const request: GetDashboardRequest = {
-                page: req.query.page ? Number(req.query.page) : 1
-            }
-
             await TaskService.updateDeadlineStatus();
 
-            const response = await TaskService.getDashboard(request);
+            const response = await TaskService.getDashboard();
 
             res.status(200).json({
                 message: "Success!",

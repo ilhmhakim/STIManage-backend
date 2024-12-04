@@ -9,7 +9,6 @@ import {Validation} from "../validation/validation";
 import {TaskValidation} from "../validation/task-validation";
 import {prismaClient} from "../application/database";
 import {ResponseError} from "../error/response-error";
-import {Pageable} from "../model/page";
 import ExcelJS from "exceljs";
 
 export class TaskService {
@@ -193,32 +192,15 @@ export class TaskService {
         });
     }
 
-    static readonly PAGE_SIZE = 15;
 
-    static async getDashboard(request: GetDashboardRequest): Promise<Pageable<GetDashboardResponse>> {
-        const validatedRequest = Validation.validate(TaskValidation.GETALLTASKS, request);
-        const skip = (validatedRequest.page - 1) * TaskService.PAGE_SIZE;
-
+    static async getDashboard() {
         const tasks = await prismaClient.task.findMany({
-            take: TaskService.PAGE_SIZE,
-            skip: skip,
             orderBy: {
                 deadline_date: 'asc'
             }
         });
 
-        const total = await prismaClient.task.count();
-
-        const taskResponses = tasks.map(task => toDashboardResponse(task));
-
-        return {
-            data: taskResponses,
-            paging: {
-                current_page: validatedRequest.page,
-                total_page: Math.ceil(total / TaskService.PAGE_SIZE),
-                size: TaskService.PAGE_SIZE
-            }
-        };
+        return tasks.map(task => toDashboardResponse(task));
     }
 
     static async downloadDashboard(): Promise<ExcelJS.Workbook> {

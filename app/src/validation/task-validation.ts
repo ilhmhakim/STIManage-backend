@@ -43,8 +43,4 @@ export class TaskValidation {
     static readonly DELETETASK: ZodType = z.object({
         task_id: z.number().positive({ message: "Task ID Invalid" })
     });
-
-    static readonly GETALLTASKS: ZodType = z.object({
-        page: z.number().min(1).positive()
-    })
 }

@@ -1,7 +1,7 @@
+// @ts-ignore
 import supertest from 'supertest';
 import {web} from "../src/application/web";
 import {logger} from "../src/application/logging";
-import {UserTest} from "./test-util";
 
 // Set timeout untuk seluruh test di file ini
 jest.setTimeout(20000); // 20 detik
@@ -54,8 +54,8 @@ describe('PATCH /api/v1/task', () => {
 describe('GET /api/v1/task', () => {
     it('Menerima request untuk get task detail', async () => {
         const response = await supertest(web)
-            .get("/api/v1/task/4")
-            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjM0IiwiaWF0IjoxNzMyNTkxMzU4LCJleHAiOjE3MzI1OTg1NTh9.57Gn13FpgDcxC-DozUM5Kfbc3nOFY47zg3FqQOpEPH8")
+            .get("/api/v1/task/5")
+            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjM0IiwiaWF0IjoxNzMyNzcxNTEzLCJleHAiOjE3MzI3Nzg3MTN9.o7KZSYbsQmkEiv1YHSbhhVGG_dxPmzbP82JqFktQWjU")
 
         logger.debug(response.body);
         expect(response.status).toBe(200);
@@ -78,7 +78,7 @@ describe('GET /api/v1/tasks/summary', () => {
     it('Mengakses summary dari keseluruhan status tasks', async () => {
         const response = await supertest(web)
             .get("/api/v1/tasks")
-            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjM0IiwiaWF0IjoxNzMyNTk5NjMyLCJleHAiOjE3MzI2MDY4MzJ9.Wy6_l1nWKzyuoF3HKCK1MyINYM8hG5l2jlAKSlqNqMg")
+            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjM0IiwiaWF0IjoxNzMzMzIzMzk0LCJleHAiOjE3MzMzMzA1OTR9.9HpQCXHPfEIAUkMGTaoWA_mco5Wes7yAhcxU7CIE7Ok")
 
         logger.debug(response.body);
         expect(response.status).toBe(200);

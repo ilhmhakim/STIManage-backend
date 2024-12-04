@@ -1,7 +1,8 @@
+// @ts-ignore
 import supertest from 'supertest'
 import {web} from "../src/application/web";
 import {logger} from "../src/application/logging";
-import {UserTest} from "./test-util";
+
 
 describe('POST /api/v1/registration', () => {
     it('Menerima request register User saat semua datanya valid', async () => {
