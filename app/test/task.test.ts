@@ -78,7 +78,7 @@ describe('GET /api/v1/tasks/summary', () => {
     it('Mengakses summary dari keseluruhan status tasks', async () => {
         const response = await supertest(web)
             .get("/api/v1/tasks")
-            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjM0IiwiaWF0IjoxNzMzMzIzMzk0LCJleHAiOjE3MzMzMzA1OTR9.9HpQCXHPfEIAUkMGTaoWA_mco5Wes7yAhcxU7CIE7Ok")
+            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjM0IiwiaWF0IjoxNzMzMzY4OTA1LCJleHAiOjE3MzMzNzYxMDV9.ekzlxrqQuYIK37iE_thmwsd_82L5bUHbWv1DiSrXn8s")
 
         logger.debug(response.body);
         expect(response.status).toBe(200);

@@ -1,6 +1,4 @@
 import {StatusLog, Task} from "@prisma/client";
-import { format } from 'date-fns';
-import { id as idLocale } from 'date-fns/locale'; // Import untuk locale Bahasa Indonesia (opsional)
 
 export type CreateTaskRequest = {
     task_name: string;
@@ -85,6 +83,13 @@ export type GetDashboardResponse = {
     deadline_status: string;
 }
 
+function formatDateToYYYYMMDD(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Menambahkan leading zero untuk bulan
+    const day = String(date.getDate()).padStart(2, '0'); // Menambahkan leading zero untuk tanggal
+    return `${year}-${month}-${day}`;
+}
+
 export function toGetTaskDetailRequest(task: Task, statusLog: StatusLog): GetTaskDetailResponse {
     return {
         task_name: task.task_name,
@@ -95,8 +100,8 @@ export function toGetTaskDetailRequest(task: Task, statusLog: StatusLog): GetTas
         category: task.category,
         programmer_name: task.programmer_name,
         qa_name: task.qa_name,
-        deadline_date: format(new Date(task.deadline_date), "EEEE, dd-MM-yyyy", { locale: idLocale }),
-        open_date: format(new Date(task.open_date), "EEEE, dd-MM-yyyy", { locale: idLocale }),
+        deadline_date: formatDateToYYYYMMDD(task.deadline_date),
+        open_date: formatDateToYYYYMMDD(task.open_date),
         task_status: task.task_status,
         deadline_status: task.deadline_status,
         created_by: task.created_by,
@@ -118,6 +123,7 @@ export function toTasksSummary(totalTasks: number, tasksToDo: number, tasksDoing
     }
 }
 
+
 export function toDashboardResponse(task: Task): GetDashboardResponse {
     return {
         id: task.id,
@@ -129,8 +135,8 @@ export function toDashboardResponse(task: Task): GetDashboardResponse {
         category: task.category,
         programmer_name: task.programmer_name,
         qa_name: task.qa_name,
-        deadline_date: format(new Date(task.deadline_date), "EEEE, dd-MM-yyyy", { locale: idLocale }),
-        open_date: format(new Date(task.open_date), "EEEE, dd-MM-yyyy", { locale: idLocale }),
+        deadline_date: formatDateToYYYYMMDD(task.deadline_date),
+        open_date: formatDateToYYYYMMDD(task.open_date),
         task_status: task.task_status,
         deadline_status: task.deadline_status,
     }
