@@ -10,9 +10,9 @@ describe('POST /api/v1/task', () => {
     it('Menerima request pembuatan task baru saat semua datanya valid', async () => {
         const response = await supertest(web)
             .post("/api/v1/task")
-            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjM0IiwiaWF0IjoxNzMyNjA4NjI5LCJleHAiOjE3MzI2MTU4Mjl9.tgIMkktY3pl-1XAhB4uiCSvmntzBvpIlfNnAD9bc6JU")
+            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjM0IiwiaWF0IjoxNzMzODk1MDgwLCJleHAiOjE3MzM5MDIyODB9.1McmKs9GkDFFVvdtmxsYLJ1olSeFUTD39kkuT6nWLuI")
             .send({
-                task_name: "Test ACC BARU COY",
+                task_name: "Test Lagi 1",
                 gitlab_link: "url.com",
                 scope: "BE",
                 module_type: "DTS User",
@@ -20,7 +20,7 @@ describe('POST /api/v1/task', () => {
                 category: "Fitur Baru",
                 programmer_name: "Ethan",
                 qa_name: "Ethan QA",
-                deadline_date: "2024-11-29",
+                deadline_date: "2024-12-11",
             });
 
         logger.debug(response.body);
@@ -78,7 +78,7 @@ describe('GET /api/v1/tasks/summary', () => {
     it('Mengakses summary dari keseluruhan status tasks', async () => {
         const response = await supertest(web)
             .get("/api/v1/tasks")
-            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjM0IiwiaWF0IjoxNzMzMzY4OTA1LCJleHAiOjE3MzMzNzYxMDV9.ekzlxrqQuYIK37iE_thmwsd_82L5bUHbWv1DiSrXn8s")
+            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjM0IiwiaWF0IjoxNzMzODk1MDgwLCJleHAiOjE3MzM5MDIyODB9.1McmKs9GkDFFVvdtmxsYLJ1olSeFUTD39kkuT6nWLuI")
 
         logger.debug(response.body);
         expect(response.status).toBe(200);

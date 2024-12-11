@@ -173,6 +173,7 @@ export class TaskService {
 
     static async updateDeadlineStatus() {
         const currentDate = new Date();
+        const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
 
         await prismaClient.task.updateMany({
             where: {
@@ -180,7 +181,7 @@ export class TaskService {
                     not: "Done"
                 },
                 deadline_date: {
-                    lt: currentDate
+                    lt: today
                 },
                 deadline_status: {
                     not: "Terlambat"
